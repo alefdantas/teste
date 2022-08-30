@@ -1,1 +1,1 @@
-web: gunicorn softfocus.wsgi
+web: gunicorn softfocus.wsgi --log-file -
