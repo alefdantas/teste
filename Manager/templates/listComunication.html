@@ -1,0 +1,134 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/styleList.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Document</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-dark ">
+        <a class="navbar-brand text-white" href="{% url 'home'%}">AgroFácil</a>
+        <button class="navbar-toggler text-white" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link text-white" href="{% url 'home'%}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="https://github.com/alefdantas">Github</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-white" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Gerenciamento
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{% url 'create_comunication'%}">Adicionar nova comunicação</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{% url 'list_comunication'%}">Administração geral</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{% url 'map'%}">Mapa com todos os locais</a>
+
+
+                    </div>
+                </li>
+
+            </ul>
+
+            <form class="form-inline my-2 my-lg-0" method="get">
+                {% csrf_token %}
+                <input class="form-control mr-sm-2" type="search" placeholder="CPF" name="search" aria-label="Search">
+                <button class="btn btn-outline-light my-lg-0 my-sm-0" type="submit">Pesquisar</button>
+            </form>
+        </div>
+    </nav>
+
+
+
+
+    <div class="tabela">
+
+
+        <table class="table table-hover table-light">
+
+            <tr>
+                <td>CPF</td>
+                <td>NOME</td>
+                <td>EMAIL</td>
+                <td>LATITUDE</td>
+                <td>LONGITUDE</td>
+                <td>TIPO DE LAVOURA</td>
+                <td>DATA DA COLHEITA</td>
+                <td>EVENTO OCORRIDO</td>
+                <td colspan="2">GERENCIAMENTO</td>
+
+            </tr>
+
+
+            {%for i in chave_list_comunication%}
+
+            <tr>
+
+                <td>{{i.cpf_produtor}}</td>
+                <td>{{i.nome_produtor}}</td>
+                <td>{{i.email_produtor}}</td>
+                <td>{{i.latitude_produtor}}</td>
+                <td>{{i.longitude_produtor}}</td>
+                <td>{{i.tipo_lavoura_produtor}}</td>
+                <td>{{i.data_colheita_produtor}}</td>
+                <td>{{i.evento_ocorrido_produtor}}</td>
+                <td><a href="{% url 'update_comunication' i.cpf_produtor%}">editar</a></td>
+                <td><a href="{% url 'delete_comunication' i.cpf_produtor %}">excluir</a></td>
+
+            </tr>
+
+            {%endfor%}
+
+        </table>
+    </div>
+
+</body>
+ <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+<footer class="bg-dark text-center text-light">
+
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+        © 2022 Copyright:
+        <a class="text-white" href="https://github.com/alefdantas">Álef Dantas</a>
+    </div>
+
+</footer>
+
+</html>
+
+{% if date%}
+<script>
+
+    alert("ATENÇÃO, JÁ EXISTE COMUNICAÇÃO DE PERDA CADASTRADA NO RAIO DE 10KM, MESMA DATA E EVENTOS DIVERGENTES");
+
+</script>
+{% endif %}
+
