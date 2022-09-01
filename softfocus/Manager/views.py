@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from .models import Loss_comunication
 from .forms import FormLossComunication
 from haversine import haversine
-
+import folium
 
 # Create your views here.
 def home(request):
@@ -77,5 +77,27 @@ def verifica_distancia(request):
     return render(request,'listComunication.html',{'date':date,'chave_list_comunication':comunication})
     
 def map(request):
-    return render(request,'map.html')
+    comunication= Loss_comunication.objects.all()
+   
+    figure = folium.Figure()
+    m = folium.Map(
+        location=[-14.239424, -53.186502],
+        zoom_start=3.5,
+        tiles='Stamen Terrain'
+    )
+    m.add_to(figure)
+    for i in comunication:
+        lat = i.latitude_produtor
+        long = i.longitude_produtor
+        lat_float = float(lat)
+        long_float = float(long)
+
+        folium.Marker(
+            location=[lat_float, long_float],
+            popup='Produtor',
+            icon=folium.Icon(icon='cloud')
+        ).add_to(m)
+
+    figure.render()
+    return render(request,"map.html",{"map": figure})
 

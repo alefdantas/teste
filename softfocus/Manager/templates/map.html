@@ -9,49 +9,21 @@
     <link rel="stylesheet" href="{% static 'css/styleMap.css' %}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    {{map.header.render|safe}}
 </head>
 
 <body>
-    {% block content %}
+    
 
-    <div id="map">
-
-    </div>
+    {{map.html.render|safe}}
 
 
-
-    {% endblock %}
+    <script>
+        {{map.script.render|safe}}
+    </script>
+    
 
 </body>
 
 </html>
 
-
-{% block javascript %}
-<script>
-    function initMap() {
-        var myLatlng = new google.maps.LatLng(-6.4503627,-37.1219452);
-        var mapOptions = {
-            zoom: 4,
-            center: myLatlng
-        }
-        var map = new google.maps.Map(document.getElementById("map"), mapOptions);
-
-        var marker = new google.maps.Marker({
-            position: myLatlng,
-            title: "Hello World!"
-        });
-
-        // To add the marker to the map, call setMap();
-        marker.setMap(map);
-        
-
-    }
-
-</script>
-{% endblock %}
-<script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
-</script>
-<script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA6rtIOyjQ2xIWhVMJZez4jLp1vZGXHQHY&callback=initMap">
-    </script>
